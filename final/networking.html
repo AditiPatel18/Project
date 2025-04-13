@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Networking Opportunities</title>
+  <style>
+  :root {
+    /* --primary: #020024,#00D4FF,#090979; */
+    /* --primary: #0f2027, #203a43, #2c5364; */
+   /* --primary:rgba(139,92,246,0.3) */
+  
+   --primary-light: #ebf0ff;
+    --secondary: #2f2952;
+    --accent: #f72585;
+    --dark: #1a1a2e;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* background: linear-gradient(to right, #0d1b2a, #1b263b, #415a77, #778da9); */
+}
+
+/* Header */
+header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: black;
+    text-decoration: none;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: black;
+    transition: color 0.3s, border-bottom 0.3s;
+    
+    /* border:2px solid beige; */
+    padding:7px;
+    /* border-radius: 50px; */
+}
+
+.nav-cta {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+nav-cta:hover{
+    background-color: var(--seconday);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(114, 9, 183, 0.3);
+}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 33%, #415a77 66%, #778da9 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 30px 20px 10px;
+      font-size: 2.5rem;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: #1b263b;
+      border-radius: 12px;
+      padding: 20px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      background-color: #415a77;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      font-size: 14px;
+      display: none;
+      color: #f0f0f0;
+      margin-top: 10px;
+    }
+
+    .card:hover .card-description {
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        aspect-ratio: auto;
+      }
+    }
+    footer {
+    background-color: var(--dark);
+    color: white;
+    padding: 50px 0 20px;
+    width:100%;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: white;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero p {
+        margin: 0 auto 30px;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .chatbot-container {
+        height: 400px;
+    }
+}
+  </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>GuideX</span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    
+                    <a href="feedback.html">Feedback</a>
+                    <a href="#" class="nav-cta" style="color:white; background-color: black;">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+  <h1>Networking Opportunities</h1>
+  <div class="container">
+
+    <div class="card" onclick="window.open('https://www.linkedin.com', '_blank')">
+      <div class="card-title">LinkedIn Networking</div>
+      <div class="card-description">
+        Use LinkedIn to connect with professionals in your field. Join industry groups, share insights, and reach out to alumni or mentors.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://mlh.io/', '_blank')">
+      <div class="card-title">Hackathons & Tech Events</div>
+      <div class="card-description">
+        Participate in hackathons, conferences, and meetups. Build connections with developers, recruiters, and companies.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://www.ieee.org/', '_blank')">
+      <div class="card-title">Professional Associations</div>
+      <div class="card-description">
+        Join IEEE or ACM. Get access to events, jobs, and veteran professionals in your field.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://alumni.harvard.edu/community', '_blank')">
+      <div class="card-title">Alumni Networks</div>
+      <div class="card-description">
+        Alumni groups are perfect for mentorship, job referrals, and shadowing opportunities in your domain.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://github.com/explore', '_blank')">
+      <div class="card-title">GitHub & Open Source</div>
+      <div class="card-description">
+        Contribute to open-source. Make PRs, join discussions, and get seen by top tech teams.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://dev.to/', '_blank')">
+      <div class="card-title">Online Communities</div>
+      <div class="card-description">
+        Engage in Reddit, Dev.to, Stack Overflow, or Discord to expand your presence in your niche.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://www.careerfairplus.com/', '_blank')">
+      <div class="card-title">Career Fairs & Webinars</div>
+      <div class="card-description">
+        Attend career fairs, virtual or physical, to meet recruiters and share your resume.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://www.youtube.com/results?search_query=tech+podcasts', '_blank')">
+      <div class="card-title">Tech Podcasts</div>
+      <div class="card-description">
+        Learn from tech podcasts and follow creators to join their community discussions.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://twitter.com/search?q=developer%20community', '_blank')">
+      <div class="card-title">Twitter/X Communities</div>
+      <div class="card-description">
+        Follow devs and recruiters. Many share job tips, threads, and projects on Twitter/X.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://adplist.org/', '_blank')">
+      <div class="card-title">Mentorship Platforms</div>
+      <div class="card-description">
+        Use platforms like ADPList to find mentors, book sessions, and grow with expert help.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://www.ycombinator.com/', '_blank')">
+      <div class="card-title">Startup Incubators</div>
+      <div class="card-description">
+        Join programs like Y Combinator or college startup cells to connect with investors, mentors, and tech founders.
+      </div>
+    </div>
+
+    <div class="card" onclick="window.open('https://developers.google.com/community/gdsc', '_blank')">
+      <div class="card-title">Student Clubs & Chapters</div>
+      <div class="card-description">
+        Be active in college clubs like GDSC, E-Cell, IEEE, or CodeChef Campus Chapter to network from day one.
+      </div>
+    </div>
+
+  </div>
+  <footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>GuideX</h3>
+                <p>Your intelligent virtual career advisor helping you navigate the job market with AI-powered insights.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Features</h3>
+                <ul>
+                    <li><a href="matching.html">Career Matching</a></li>
+                    <li><a href="skill.html">Skill Assessment</a></li>
+                    <li><a href="#">Resume Builder</a></li>
+                    <li><a href="#">Interview Prep</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="career">Careers</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:hello@ivca.com">hello@ivca.com</a></li>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li>Tech City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Your Company. All rights reserved.</p>
+        </div>
+    </div>
+    </footer>
+</body>
+</html>

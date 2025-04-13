@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVCA - Chatbot UX Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="feedback.css">
+    <style>
+        :root {
+    --primary: #4361ee;
+    --primary-light: #ebf0ff;
+    --secondary: #7209b7;
+    --dark: #1a1a2e;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+    --success: #4cc9f0;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+.assessment-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+:root {
+    /* --primary: #020024,#00D4FF,#090979; */
+    /* --primary: #0f2027, #203a43, #2c5364; */
+   /* --primary:rgba(139,92,246,0.3) */
+  
+   --primary-light: #ebf0ff;
+    --secondary: #2f2952;
+    --accent: #f72585;
+    --dark: #1a1a2e;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* background: linear-gradient(to right, #0d1b2a, #1b263b, #415a77, #778da9); */
+}
+
+/* Header */
+header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: rgb(41, 20, 20);
+    text-decoration: none;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color:  rgb(41, 20, 20);
+    border:2px solid beige;
+    padding:7px;
+    border-radius: 50px;
+}
+
+.nav-cta {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+nav-cta:hover{
+    background-color: var(--seconday);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(114, 9, 183, 0.3);
+}
+
+
+/* Header Styles */
+.assessment-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.assessment-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+}
+
+.assessment-header p {
+    color: var(--gray);
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--light-gray);
+    border-radius: 4px;
+    margin: 1rem auto;
+    position: relative;
+    max-width: 500px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 20%;
+}
+
+.progress-text {
+    position: absolute;
+    top: -25px;
+    left: 0;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* Question Cards */
+.question-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+    display: none;
+}
+
+.question-card.active {
+    display: block;
+}
+
+.question-header {
+    margin-bottom: 2rem;
+}
+
+.category-tag {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.question-header h2 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+/* Rating Scales */
+.satisfaction-scale, 
+.speed-scale,
+.personality-scale {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.satisfaction-option,
+.speed-option,
+.personality-option {
+    position: relative;
+    flex: 1;
+    min-width: 100px;
+}
+
+.satisfaction-option input[type="radio"],
+.speed-option input[type="radio"],
+.personality-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.satisfaction-option label,
+.speed-option label,
+.personality-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    height: 100%;
+}
+
+.satisfaction-option input[type="radio"]:checked + label,
+.speed-option input[type="radio"]:checked + label,
+.personality-option input[type="radio"]:checked + label {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.satisfaction-option:hover label,
+.speed-option:hover label,
+.personality-option:hover label {
+    border-color: var(--primary);
+}
+
+.emoji {
+    font-size: 2rem;
+    transition: transform 0.3s;
+}
+
+.satisfaction-option input[type="radio"]:checked + label .emoji {
+    transform: scale(1.3);
+}
+
+.speed-option i,
+.personality-option i {
+    font-size: 1.8rem;
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+.speed-option input[type="radio"]:checked + label i,
+.personality-option input[type="radio"]:checked + label i {
+    color: var(--secondary);
+    transform: scale(1.2);
+}
+
+.rating-level {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.rating-desc {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+/* Chat Example */
+.chatbot-example {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--primary);
+}
+
+.chat-message {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.bot-message {
+    background: var(--primary-light);
+    align-self: flex-start;
+}
+
+.user-message {
+    background: var(--primary);
+    color: white;
+    margin-left: auto;
+}
+
+/* Open Text Response */
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 120px;
+    transition: border 0.3s;
+}
+
+textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* Navigation */
+.question-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.nav-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.nav-btn.primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.nav-btn.primary:hover {
+    background: var(--secondary);
+}
+
+.prev-btn {
+    background: none;
+    border: 1px solid var(--light-gray);
+    color: var(--gray);
+}
+
+.prev-btn:hover:not(.disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.prev-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Tips Section */
+.tips-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.tip-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.tip-card i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.tip-card p {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .assessment-header h1 {
+        font-size: 1.7rem;
+    }
+    
+    .question-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .satisfaction-scale,
+    .speed-scale,
+    .personality-scale {
+        flex-direction: column;
+    }
+    
+    .satisfaction-option,
+    .speed-option,
+    .personality-option {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .question-nav {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+    
+    .nav-btn {
+        justify-content: center;
+        width: 100%;
+    }
+}
+footer {
+    background-color: var(--dark);
+    color: white;
+    padding: 50px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: white;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero p {
+        margin: 0 auto 30px;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .chatbot-container {
+        height: 400px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>GuideX</span>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="#">How It Works</a>
+                    <a href="feedback.html">Feedback</a>
+                    <a href="#" class="nav-cta" style="color:white; background-color: black;">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="assessment-container">
+        <!-- Progress Header -->
+        <div class="assessment-header">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <span class="progress-text" id="progressText">Question 1 of 5</span>
+            </div>
+            <h1>Chatbot Experience Evaluation</h1>
+            <p>Your feedback helps improve your AI career advisor</p>
+        </div>
+
+        <!-- Question 1: Conversation Flow -->
+        <div class="question-card active" id="q1">
+            <div class="question-header">
+                <span class="category-tag">Dialogue Quality</span>
+                <h2>How natural did the conversation with the chatbot feel?</h2>
+            </div>
+
+            <div class="satisfaction-scale">
+                <div class="satisfaction-option">
+                    <input type="radio" name="conversation-flow" id="flow-1" value="1">
+                    <label for="flow-1">
+                        <span class="emoji">😞</span>
+                        <span>Very Unnatural</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="conversation-flow" id="flow-2" value="2">
+                    <label for="flow-2">
+                        <span class="emoji">😕</span>
+                        <span>Somewhat Unnatural</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="conversation-flow" id="flow-3" value="3" checked>
+                    <label for="flow-3">
+                        <span class="emoji">😐</span>
+                        <span>Neutral</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="conversation-flow" id="flow-4" value="4">
+                    <label for="flow-4">
+                        <span class="emoji">🙂</span>
+                        <span>Mostly Natural</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="conversation-flow" id="flow-5" value="5">
+                    <label for="flow-5">
+                        <span class="emoji">😃</span>
+                        <span>Perfectly Natural</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="chatbot-example">
+                <div class="chat-message bot-message">
+                    <strong>IVCA:</strong> What programming languages are you most comfortable with?
+                </div>
+                <div class="chat-message user-message">
+                    <strong>You:</strong> Mainly Python and JavaScript
+                </div>
+                <div class="chat-message bot-message">
+                    <strong>IVCA:</strong> Great combination! Those skills are in high demand. Would you like...
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2: Suggestion Accuracy -->
+        <div class="question-card" id="q2">
+            <div class="question-header">
+                <span class="category-tag">Recommendations</span>
+                <h2>How relevant were the career suggestions to your skills?</h2>
+            </div>
+
+            <div class="satisfaction-scale">
+                <div class="satisfaction-option">
+                    <input type="radio" name="suggestion-accuracy" id="acc-1" value="1">
+                    <label for="acc-1">
+                        <span class="emoji">😞</span>
+                        <span>Not Relevant</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="suggestion-accuracy" id="acc-2" value="2">
+                    <label for="acc-2">
+                        <span class="emoji">😕</span>
+                        <span>Slightly Relevant</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="suggestion-accuracy" id="acc-3" value="3" checked>
+                    <label for="acc-3">
+                        <span class="emoji">😐</span>
+                        <span>Moderately Relevant</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="suggestion-accuracy" id="acc-4" value="4">
+                    <label for="acc-4">
+                        <span class="emoji">🙂</span>
+                        <span>Very Relevant</span>
+                    </label>
+                </div>
+                <div class="satisfaction-option">
+                    <input type="radio" name="suggestion-accuracy" id="acc-5" value="5">
+                    <label for="acc-5">
+                        <span class="emoji">😃</span>
+                        <span>Perfect Match</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3: Response Speed -->
+        <div class="question-card" id="q3">
+            <div class="question-header">
+                <span class="category-tag">Performance</span>
+                <h2>How satisfied were you with the chatbot's response speed?</h2>
+            </div>
+
+            <div class="speed-scale">
+                <div class="speed-option">
+                    <input type="radio" name="response-speed" id="speed-1" value="1">
+                    <label for="speed-1">
+                        <i class="fas fa-turtle"></i>
+                        <span>Too Slow</span>
+                    </label>
+                </div>
+                <div class="speed-option">
+                    <input type="radio" name="response-speed" id="speed-2" value="2">
+                    <label for="speed-2">
+                        <i class="fas fa-walking"></i>
+                        <span>Slow</span>
+                    </label>
+                </div>
+                <div class="speed-option">
+                    <input type="radio" name="response-speed" id="speed-3" value="3" checked>
+                    <label for="speed-3">
+                        <i class="fas fa-bicycle"></i>
+                        <span>Average</span>
+                    </label>
+                </div>
+                <div class="speed-option">
+                    <input type="radio" name="response-speed" id="speed-4" value="4">
+                    <label for="speed-4">
+                        <i class="fas fa-running"></i>
+                        <span>Fast</span>
+                    </label>
+                </div>
+                <div class="speed-option">
+                    <input type="radio" name="response-speed" id="speed-5" value="5">
+                    <label for="speed-5">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4: Personality -->
+        <div class="question-card" id="q4">
+            <div class="question-header">
+                <span class="category-tag">Interaction Style</span>
+                <h2>How would you describe the chatbot's personality?</h2>
+            </div>
+
+            <div class="personality-scale">
+                <div class="personality-option">
+                    <input type="radio" name="personality" id="pers-1" value="too_robotic">
+                    <label for="pers-1">
+                        <i class="fas fa-robot"></i>
+                        <span>Too Robotic</span>
+                    </label>
+                </div>
+                <div class="personality-option">
+                    <input type="radio" name="personality" id="pers-2" value="professional">
+                    <label for="pers-2">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Professional</span>
+                    </label>
+                </div>
+                <div class="personality-option">
+                    <input type="radio" name="personality" id="pers-3" value="friendly" checked>
+                    <label for="pers-3">
+                        <i class="fas fa-smile"></i>
+                        <span>Friendly</span>
+                    </label>
+                </div>
+                <div class="personality-option">
+                    <input type="radio" name="personality" id="pers-4" value="enthusiastic">
+                    <label for="pers-4">
+                        <i class="fas fa-laugh-beam"></i>
+                        <span>Enthusiastic</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5: Open Feedback -->
+        <div class="question-card" id="q5">
+            <div class="question-header">
+                <span class="category-tag">Improvement</span>
+                <h2>What one improvement would make this chatbot more helpful?</h2>
+            </div>
+
+            <textarea id="improvement-suggestion" 
+                    placeholder="Example: 'Add voice input support' or 'Provide more detailed salary info'"
+                    rows="4"></textarea>
+        </div>
+
+        <!-- Navigation -->
+        <div class="question-nav">
+            <button class="nav-btn prev-btn disabled" id="prevBtn">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn next-btn primary" id="nextBtn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <div class="tip-card">
+                <i class="fas fa-comment-dots"></i>
+                <p>We read every response to improve your experience</p>
+            </div>
+            <div class="tip-card">
+                <i class="fas fa-clock"></i>
+                <p>Takes just 1-2 minutes to complete</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>GuideX</h3>
+                    <p>Your intelligent virtual career advisor helping you navigate the job market with AI-powered insights.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="matching.html">Career Matching</a></li>
+                        <li><a href="skill.html">Skill Assessment</a></li>
+                        <li><a href="resume.html">Resume Builder</a></li>
+                        <li><a href="#">Interview Prep</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="career.html">Careers</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:hello@ivca.com">hello@ivca.com</a></li>
+                        <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                        <li>123 Career St, Tech City</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Your Company. All rights reserved.</p>
+            </div>
+        </div>
+        </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const questions = document.querySelectorAll('.question-card');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            let currentQuestion = 0;
+            const totalQuestions = questions.length;
+            const responses = {};
+            
+            // Initialize
+            showQuestion(currentQuestion);
+            updateProgress();
+            
+            // Navigation
+            nextBtn.addEventListener('click', function() {
+                if (!validateCurrentQuestion()) {
+                    alert('Please provide a response before continuing');
+                    return;
+                }
+                
+                saveResponse();
+                
+                if (currentQuestion < totalQuestions - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    updateNavigation();
+                } else {
+                    submitAssessment();
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    showQuestion(currentQuestion);
+                    updateNavigation();
+                }
+            });
+            
+            // Question Display
+            function showQuestion(index) {
+                questions.forEach((q, i) => {
+                    q.classList.toggle('active', i === index);
+                });
+            }
+            
+            // Progress Tracking
+            function updateProgress() {
+                const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
+                
+                if (currentQuestion === totalQuestions - 1) {
+                    nextBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+                } else {
+                    nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+                }
+            }
+            
+            // Navigation State
+            function updateNavigation() {
+                prevBtn.classList.toggle('disabled', currentQuestion === 0);
+                updateProgress();
+            }
+            
+            // Response Validation
+            function validateCurrentQuestion() {
+                const currentQ = questions[currentQuestion];
+                
+                // For radio inputs
+                const radioName = currentQ.querySelector('input[type="radio"]')?.name;
+                if (radioName) {
+                    return !!currentQ.querySelector(`input[name="${radioName}"]:checked`);
+                }
+                
+                // For textarea
+                const textarea = currentQ.querySelector('textarea');
+                if (textarea) {
+                    return textarea.value.trim().length > 10; // Minimum 10 chars
+                }
+                
+                return true;
+            }
+            
+            // Save Response
+            function saveResponse() {
+                const currentQ = questions[currentQuestion];
+                const questionId = currentQ.id;
+                const questionText = currentQ.querySelector('h2').textContent;
+                
+                // Radio button response
+                const selectedRadio = currentQ.querySelector('input[type="radio"]:checked');
+                if (selectedRadio) {
+                    responses[questionId] = {
+                        question: questionText,
+                        value: selectedRadio.value,
+                        label: selectedRadio.nextElementSibling.textContent.trim()
+                    };
+                    return;
+                }
+                
+                // Textarea response
+                const textarea = currentQ.querySelector('textarea');
+                if (textarea) {
+                    responses[questionId] = {
+                        question: questionText,
+                        value: textarea.value.trim()
+                    };
+                }
+            }
+            
+            // Submit Assessment
+            function submitAssessment() {
+                console.log('User responses:', responses);
+                
+                // In a real app: Send to backend
+                fetch('/api/chatbot-feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(responses)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/thank-you'; // Redirect to confirmation
+                    } else {
+                        alert('Submission failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Network error. Please check your connection.');
+                });
+            }
+            
+            // Animation for selected options
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove all selected styles first
+                    document.querySelectorAll(`input[name="${this.name}"] + label`).forEach(label => {
+                        label.style.transform = 'scale(1)';
+                        label.style.fontWeight = 'normal';
+                    });
+                    
+                    // Highlight selected
+                    if (this.checked) {
+                        this.nextElementSibling.style.fontWeight = '600';
+                        
+                        // Special handling for emoji scale
+                        const emoji = this.nextElementSibling.querySelector('.emoji');
+                        if (emoji) {
+                            emoji.style.transform = 'scale(1.3)';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
