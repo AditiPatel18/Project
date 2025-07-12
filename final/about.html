@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | GuideX</title>
+  <link rel="stylesheet" href="about.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Futuristic Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+    /* --primary: #020024,#00D4FF,#090979; */
+    /* --primary: #0f2027, #203a43, #2c5364; */
+   /* --primary:rgba(139,92,246,0.3) */
+  
+   --primary-light: #ebf0ff;
+    --secondary: #2f2952;
+    --accent: #f72585;
+    --dark: #1a1a2e;
+    --light: #f8f9fa;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 33%, #415a77 66%, #778da9 100%);
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x:hidden;
+    margin:0px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* background: linear-gradient(to right, #0d1b2a, #1b263b, #415a77, #778da9); */
+}
+
+/* Header */
+header {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: black;
+    text-decoration: none;
+}
+
+.logo i {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    /* color: var(--primary); */
+    color: black;
+    border:2px solid beige;
+    padding:7px;
+    border-radius: 50px;
+}
+
+.nav-cta {
+    background-color: var(--primary);
+    color: white;
+    
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+nav-cta:hover{
+    background-color: var(--seconday);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(114, 9, 183, 0.3);
+}
+
+
+
+
+ 
+/* :root {
+    --font-main: 'Chakra Petch', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-main);
+    background: linear-gradient(to bottom, #0d1b2a 0%, #1b263b 33%, #415a77 66%, #778da9 100%);
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+
+  nav {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1em 2em;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 2em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a.active,
+  .nav-links a:hover {
+    color: #87ceeb;
+  }  */
+
+  .about-container {
+    max-width: 1000px;
+    margin: 4em auto;
+    padding: 2em;
+  }
+
+  .about-container h1 {
+    font-size: 3em;
+    color: #87ceeb;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+
+  .about-content span,
+  .about-content ul {
+    font-size: 1.2em;
+    line-height: 1.8;
+    color: #ddd;
+  }
+
+  .section {
+    margin-top: 3em;
+  }
+
+  .section h2 {
+    color: #fff44f;
+    margin-bottom: 0.5em;
+    font-size: 1.8em;
+  }
+
+  .section ul {
+    list-style-type: circle;
+    padding-left: 1.5em;
+  }
+
+  .boxed-section {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1.5em;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.2);
+    margin-top: 1em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: scale(1);
+  }
+
+  .boxed-section:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(135, 206, 235, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .about-container {
+      padding: 1em;
+    }
+  }
+  footer {
+    background-color: var(--dark);
+    color: white;
+    padding: 50px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: white;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero p {
+        margin: 0 auto 30px;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .chatbot-container {
+        height: 400px;
+    }
+}
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">
+                <i class="fas fa-robot"></i>
+                <span>GuideX</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="#">How It Works</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="#" class="nav-cta" style="color:white; background-color: black;">Sign Up</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+  <!-- About Content -->
+  <main class="about-container">
+    <h1>About GuideX</h1>
+
+    <div class="about-content">
+      <div class="boxed-section">
+        <span>GuideX is your AI-powered career companion, designed to help you discover new opportunities, enhance your skills, and achieve your professional goals through personalized guidance and actionable insights.</span>
+      </div>
+
+      <div class="section">
+        <h2>🌟 Our Mission</h2>
+        <div class="boxed-section">
+          <span>We aim to make career development smarter, faster, and more accessible to everyone by using advanced AI and real-time data.</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🚀 What Makes Us Unique</h2>
+        <div class="boxed-section">
+          <ul>
+            <li>AI-driven personalized career paths</li>
+            <li>Real-time job market insights</li>
+            <li>Resume review and optimization tools</li>
+            <li>Skill-gap analysis and learning recommendations</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>💡 Vision for the Future</h2>
+        <div class="boxed-section">
+          <span>We believe in a world where every individual has the tools to take control of their career journey — confidently and creatively.</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>🧠 How We Work</h2>
+        <div class="boxed-section">
+          <span>
+            GuideX uses a blend of artificial intelligence, career trend analysis, and user-centric design to deliver personalized career advice. Our AI learns from your goals, skills, and market data to recommend the next best move in your journey.
+          </span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>GuideX</h3>
+                <p>Your intelligent virtual career advisor helping you navigate the job market with AI-powered insights.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Features</h3>
+                <ul>
+                    <li><a href="matching.html">Career Matching</a></li>
+                    <li><a href="skill.html">Skill Assessment</a></li>
+                    <li><a href="resume.html">Resume Builder</a></li>
+                    <li><a href="#">Interview Prep</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="career.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:hello@ivca.com">hello@ivca.com</a></li>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li>123 Career St, Tech City</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Your Company. All rights reserved.</p>
+        </div>
+    </div>
+    </footer>
+
+  <!-- JavaScript for Active Nav -->
+  <script>
+    const currentPage = window.location.pathname.split("/").pop();
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      if (link.getAttribute("href") === currentPage) {
+        link.classList.add("active");
+      }
+    });
+  </script>
+</body>
+</html>

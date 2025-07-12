@@ -1,0 +1,4404 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GuideX - Your Virtual Advisor</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light theme variables */
+            --primary: #00bfff;
+            --primary-dark: #0099cc;
+            --secondary: #ffff00;
+            --dark: #1a1a2e;
+            --darker: #151525;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+            --gray-dark: #334155;
+            --border-radius: 14px;
+            --font-code: 'Fira Code', monospace;
+            --neon-glow: 0 0 5px rgba(0, 191, 255, 0.3),
+                        0 0 10px rgba(0, 191, 255, 0.2),
+                        0 0 15px rgba(0, 191, 255, 0.1);
+            --neon-yellow: 0 0 5px rgba(255, 255, 0, 0.3),
+                          0 0 10px rgba(255, 255, 0, 0.2),
+                          0 0 15px rgba(255, 255, 0, 0.1);
+            --gradient-shadow: linear-gradient(45deg, 
+                rgba(0, 191, 255, 0.2) 0%,
+                rgba(255, 255, 0, 0.2) 100%);
+        }
+
+        [data-theme="dark"] {
+            --primary: #00bfff;
+            --primary-dark: #0099cc;
+            --secondary: #ffff00;
+            --dark: #1a1a2e;
+            --darker: #151525;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+            --gray-dark: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --button-text: #ffffff;
+            --border-color: rgba(0, 191, 255, 0.2);
+            --hover-color: rgba(0, 191, 255, 0.3);
+            --font-color: #f1f5f9;
+            --button-bg: linear-gradient(45deg, #00bfff, #ffff00);
+            --button-hover: linear-gradient(45deg, #ffff00, #00bfff);
+            --header-bg: linear-gradient(45deg, #00bfff, #ffff00);
+            --nav-color: #f1f5f9;
+            --nav-hover: #00bfff;
+        }
+
+        [data-theme="light"] {
+            --primary: #0066cc;
+            --primary-dark: #004d99;
+            --secondary: #ffd700;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1a1a2e;
+            --gray: #64748b;
+            --gray-dark: #334155;
+            --text-primary: #1a1a2e;
+            --text-secondary: #64748b;
+            --button-text: #ffffff;
+            --border-color: rgba(0, 102, 204, 0.2);
+            --hover-color: rgba(0, 102, 204, 0.3);
+            --font-color: #1a1a2e;
+            --button-bg: linear-gradient(45deg, #0066cc, #ffd700);
+            --button-hover: linear-gradient(45deg, #ffd700, #0066cc);
+            --header-bg: linear-gradient(45deg, #0066cc, #ffd700);
+            --nav-color: #1a1a2e;
+            --nav-hover: #0066cc;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle .theme-icon {
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            position: absolute;
+        }
+
+        /* Light Mode Styles */
+        [data-theme="light"] .theme-toggle {
+            color: #000000;
+        }
+
+        [data-theme="light"] .theme-toggle .fa-sun {
+            opacity: 1;
+            transform: rotate(0deg);
+            color: #000000;
+        }
+
+        [data-theme="light"] .theme-toggle .fa-moon {
+            opacity: 0;
+            transform: rotate(90deg);
+            color: #000000;
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Dark Mode Styles */
+        [data-theme="dark"] .theme-toggle {
+            color: #f1f5f9;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-sun {
+            opacity: 0;
+            transform: rotate(-90deg);
+            color: #f1f5f9;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-moon {
+            opacity: 1;
+            transform: rotate(0deg);
+            color: #f1f5f9;
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(241, 245, 249, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Hover Animation */
+        .theme-toggle:hover .theme-icon {
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            }
+            100% {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .theme-toggle .fa-sun {
+            animation: glow 2s infinite;
+        }
+
+        @keyframes moonGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(184, 184, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(184, 184, 255, 0.8);
+            }
+            100% {
+                text-shadow: 0 0 10px rgba(184, 184, 255, 0.5);
+            }
+        }
+
+        .theme-toggle.dark-mode .fa-moon {
+            animation: moonGlow 2s infinite;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--font-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            transition: all 0.3s ease;
+        }
+
+        /* Background animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .bg-blob {
+            position: absolute;
+            width: 70vw;
+            height: 70vw;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            mix-blend-mode: screen;
+        }
+
+        .blob-1 {
+            top: -30%;
+            left: -20%;
+            background: radial-gradient(circle, var(--primary) 0%, rgba(0, 191, 255, 0) 70%);
+            animation: float1 20s infinite alternate;
+        }
+
+        .blob-2 {
+            bottom: -40%;
+            right: -20%;
+            background: radial-gradient(circle, var(--secondary) 0%, rgba(255, 255, 0, 0) 70%);
+            animation: float2 25s infinite alternate;
+        }
+
+        @keyframes float1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 5%) scale(1.1); }
+            100% { transform: translate(-5%, -5%) scale(0.9); }
+        }
+
+        @keyframes float2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-5%, -5%) scale(1.1); }
+            100% { transform: translate(5%, 5%) scale(0.9); }
+        }
+
+        .bg-animation:hover .blob-1 {
+            filter: blur(120px);
+            opacity: 0.25;
+            transform: scale(1.1);
+        }
+
+        .bg-animation:hover .blob-2 {
+            filter: blur(120px);
+            opacity: 0.25;
+            transform: scale(1.1);
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            background: rgba(var(--dark), 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--neon-glow),
+                       inset 0 0 15px var(--gradient-shadow);
+            border-bottom: 1px solid;
+            border-image: linear-gradient(to right, rgba(0, 191, 255, 0.3), rgba(255, 255, 0, 0.3)) 1;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            margin-right: 2rem;
+        }
+
+        .nav-link {
+            color: var(--nav-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-left: 2rem;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-container {
+                gap: 1rem;
+            }
+            
+            .nav-actions {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+            }
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .logo {
+            font-family: var(--font-code);
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--nav-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo span {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+
+        .logo span::after {
+            content: '_';
+            animation: blink 1s infinite;
+            opacity: 0.8;
+        }
+
+        .logo .made-by {
+            font-family: var(--font-code);
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-left: 0.5rem;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .logo .made-by:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--nav-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--nav-hover);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .hero h1 .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: inherit;
+            font-weight: 600;
+        }
+
+        .hero h1 .logo i {
+            font-size: inherit;
+        }
+
+        .hero h1 .logo span {
+            font-size: inherit;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            line-height: 1.6;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+
+        .example-questions {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(var(--dark), 0.4);
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .question-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .question-item {
+            background: rgba(var(--dark), 0.6);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero-content {
+                padding: 0 0.5rem;
+            }
+
+            .example-questions {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+
+            .question-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 5rem 0.5rem 2rem;
+            }
+
+            .hero-content {
+                padding: 0 0.3rem;
+            }
+
+            .example-questions {
+                padding: 1rem;
+                margin: 1.5rem 0.5rem;
+            }
+
+            .question-item {
+                padding: 0.8rem;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--button-bg);
+            color: var(--button-text);
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+            margin-top: 2rem;
+            box-shadow: 0 3px 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .example-questions {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(var(--dark), 0.4);
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .example-questions h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .question-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .question-item {
+            background: rgba(var(--dark), 0.6);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .question-item:hover {
+            transform: translateY(-2px);
+            background: rgba(var(--dark), 0.8);
+            color: var(--text-primary);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.15);
+        }
+
+        .question-item i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .question-item.clicked {
+            background: var(--primary);
+            color: var(--button-text);
+            border-color: var(--primary);
+            transform: scale(0.98);
+        }
+
+        .question-item.clicked i {
+            color: var(--button-text);
+        }
+
+        @media (max-width: 768px) {
+            .question-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .example-questions {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+        }
+
+        .btn i {
+            margin-right: 0.8rem;
+            font-size: 1.4rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.3),
+                        0 0 10px rgba(255, 255, 0, 0.2);
+            background: var(--button-hover);
+        }
+
+        .btn:hover i {
+            transform: translateX(5px) rotate(10deg);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 50%);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::after {
+            transform: rotate(225deg);
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Chat Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+            display: none;
+            position: relative;
+            z-index: 900;
+            margin-top: 8rem;
+            min-height: 100vh;
+            padding-bottom: 200px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .container.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 9rem;
+            left: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button.visible {
+            display: flex;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
+            background: var(--button-hover);
+        }
+
+        .chat-wrapper {
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            background: rgba(var(--dark), 0.95);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            position: relative;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 0 10px rgba(var(--primary), 0.05),
+                        inset 0 0 15px rgba(var(--primary), 0.03);
+            backdrop-filter: blur(5px);
+        }
+
+        .chat-header {
+            background: var(--header-bg);
+            color: var(--button-text);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .chat-header h2 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chat-box {
+            flex: 1;
+            background: rgba(var(--dark), 0.4);
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--dark);
+            position: relative;
+            z-index: 1000;
+            height: auto;
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: blur(10px);
+            transition: background 0.3s ease;
+        }
+
+        .message {
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+            word-wrap: break-word;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            max-width: 85%;
+            backdrop-filter: blur(5px);
+            font-family: var(--font-code);
+        }
+
+        .message.user {
+            background: var(--button-bg);
+            color: var(--button-text);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            margin-left: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 191, 255, 0.15),
+                        inset 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .message.bot {
+            background: rgba(var(--dark), 0.8);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 2px solid var(--border-color);
+            margin-right: 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15),
+                        inset 0 0 15px rgba(0, 191, 255, 0.05);
+        }
+
+        .message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .message.user:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2),
+                        inset 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .message.bot:hover {
+            border-color: var(--hover-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+                        inset 0 0 15px rgba(0, 191, 255, 0.1);
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .chat-input {
+            position: relative;
+            padding: 1.5rem;
+            background: rgba(var(--dark), 0.6);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.8rem;
+            width: 100%;
+            z-index: 1001;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            transition: background 0.3s ease;
+        }
+
+        .chat-input input {
+            flex: 1;
+            width: calc(100% - 70px);
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(var(--dark), 0.4);
+            color: var(--text-primary);
+            margin-right: 0.5rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .chat-input input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .chat-input input:focus {
+            border-color: var(--primary);
+            background: rgba(var(--dark), 0.5);
+            box-shadow: 0 0 15px rgba(var(--primary), 0.2);
+        }
+
+        .chat-input button {
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            border: none;
+            border-radius: 50%;
+            background: var(--button-bg);
+            color: var(--button-text);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.05);
+            background: var(--button-hover);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+        }
+
+        /* Custom Scrollbar Styles */
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-box::-webkit-scrollbar-track {
+            background: var(--dark);
+            border-radius: 4px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 4px;
+            border: 2px solid var(--dark);
+        }
+
+        .chat-box::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary), var(--primary));
+        }
+
+        /* Main content wrapper */
+        .main-content {
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            padding-bottom: 200px; /* Space for footer */
+        }
+
+        .main-content.hidden {
+            display: none;
+        }
+
+        /* Features section */
+        .features {
+            padding: 3rem 2rem;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+            min-height: auto;
+        }
+
+        .features-heading {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .features-heading h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--light);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .features-heading p {
+            font-size: 1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(var(--dark), 0.8);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--neon-glow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--light);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        footer.hidden {
+            transform: translateY(100%);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content .logo {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-content p {
+            margin: 0;
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                gap: 0.5rem;
+            }
+            
+            .footer-content .logo {
+                font-size: 1.3rem;
+            }
+            
+            .footer-content p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--light);
+            animation: spin 1s infinite linear;
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .chat-wrapper {
+                height: 85vh;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .back-button {
+                top: 8rem;
+                left: 1rem;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .container {
+                margin-top: 7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding-top: 6rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 0.5rem 2rem;
+                margin-top: 6rem;
+            }
+
+            .chat-wrapper {
+                height: 90vh;
+                border-radius: 0;
+            }
+
+            .chat-header {
+                padding: 1rem;
+                border-radius: 0;
+            }
+
+            .chat-box {
+                padding: 0.8rem;
+            }
+
+            .message {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+                max-width: 95%;
+            }
+
+            .chat-input {
+                padding: 0.8rem;
+                border-radius: 0;
+            }
+
+            .chat-input input {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .chat-input button {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+
+            .file-input-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: block;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1000;
+        }
+
+        .hamburger i {
+            font-size: 1.5rem;
+            color: var(--nav-color);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: block;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 450px;
+            height: 100vh;
+            background: var(--darker);
+            padding: 5rem 2rem;
+            transition: right 0.3s ease;
+            z-index: 999;
+            box-shadow: -3px 0 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu .nav-link {
+            font-size: 1.1rem;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            background: rgba(var(--dark), 0.5);
+            border: 3px solid var(--border-color);
+            color: var(--nav-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
+        }
+
+        .mobile-menu .nav-link:hover {
+            background: var(--hover-color);
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .mobile-menu .nav-link i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Profile Section Styles */
+        .profile-section {
+            padding: 1.5rem;
+            background: rgba(var(--dark), 0.6);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .profile-picture-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture-container:hover {
+            transform: scale(1.05);
+            border-color: var(--secondary);
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .profile-picture-container:hover .profile-picture-overlay {
+            opacity: 1;
+        }
+
+        .profile-picture-overlay i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        #profile-picture-input {
+            display: none;
+        }
+
+        .user-info i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .user-email {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Add smooth transitions for all color changes */
+        body, .nav-link, .btn, .back-button, .chat-header, 
+        .chat-input button, .message.user, .mobile-menu .nav-link,
+        .logo, .logo i, .logo span, .theme-toggle, .hamburger i {
+            transition: all 0.3s ease-in-out;
+        }
+
+        [data-theme="dark"] .chat-box {
+            background: rgba(26, 26, 46, 0.4);
+        }
+
+        [data-theme="dark"] .chat-input {
+            background: rgba(26, 26, 46, 0.6);
+        }
+
+        [data-theme="dark"] .chat-input input {
+            background: rgba(26, 26, 46, 0.4);
+        }
+
+        [data-theme="light"] .chat-box {
+            background: rgba(248, 250, 252, 0.4);
+        }
+
+        [data-theme="light"] .chat-input {
+            background: rgba(248, 250, 252, 0.6);
+        }
+
+        [data-theme="light"] .chat-input input {
+            background: rgba(248, 250, 252, 0.4);
+        }
+
+        /* Login Page Styles */
+        .login-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 360px;
+            box-shadow: var(--neon-glow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .form-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .form-container.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .login-container .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-container .logo i {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .login-container .logo span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: var(--border-radius);
+            background: rgba(26, 26, 46, 0.6);
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: var(--border-radius);
+            background: rgba(26, 26, 46, 0.6);
+            color: var(--light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            justify-content: center;
+        }
+
+        .social-btn:hover {
+            background: rgba(26, 26, 46, 0.8);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .social-btn i {
+            font-size: 1.2rem;
+            color: #DB4437;
+        }
+
+        .social-btn.gmail i {
+            color: #EA4335;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .form-toggle a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+
+        .form-toggle a:hover {
+            color: var(--secondary);
+        }
+
+        .verification-input {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 0 1rem;
+        }
+
+        .verification-input input {
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            border-radius: var(--border-radius);
+            background: rgba(26, 26, 46, 0.6);
+            color: var(--light);
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        .verification-input input:focus {
+            border-color: var(--primary);
+            background: rgba(26, 26, 46, 0.8);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .verification-input input::-webkit-outer-spin-button,
+        .verification-input input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message {
+            color: #00ff00;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Add these new styles */
+        .editable-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 0.5rem 0;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .user-name-input,
+        .user-profession-input {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.8rem 1.2rem;
+            color: var(--light);
+            font-size: 1.1rem;
+            width: 100%;
+            min-width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .user-name-input:focus,
+        .user-profession-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .edit-icon {
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-icon:hover {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+
+        .save-profile-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: var(--dark);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .save-profile-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .save-profile-btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Update existing profile section styles */
+        .profile-section {
+            padding: 1.5rem;
+            background: rgba(var(--dark), 0.6);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+
+        .user-info i.fa-user-circle {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .user-email {
+            font-size: 1rem;
+            color: var(--gray);
+            margin: 0.5rem 0;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        /* File Input Styles */
+        .file-input-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+
+        .file-input-button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--button-bg);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--button-text);
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .file-input-button:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: var(--button-hover);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Message Formatting Styles */
+        .message-content {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .message-content pre {
+            background: rgba(var(--dark), 0.6);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin: 0.5rem 0;
+        }
+
+        .message-content code {
+            font-family: var(--font-code);
+            background: rgba(var(--dark), 0.4);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .message-content img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            margin: 0.5rem 0;
+        }
+
+        .message-content a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .message-content a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            background: var(--button-hover);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+        }
+
+        .file-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: var(--border-radius);
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .file-info {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin: 0.5rem 0;
+        }
+
+        /* Markdown Formatting Styles */
+        .message-content {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .message-content h1,
+        .message-content h2,
+        .message-content h3,
+        .message-content h4,
+        .message-content h5,
+        .message-content h6 {
+            margin: 1.5rem 0 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .message-content h1 { font-size: 2rem; }
+        .message-content h2 { font-size: 1.75rem; }
+        .message-content h3 { font-size: 1.5rem; }
+        .message-content h4 { font-size: 1.25rem; }
+        .message-content h5 { font-size: 1.1rem; }
+        .message-content h6 { font-size: 1rem; }
+
+        .message-content p {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .message-content ul,
+        .message-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .message-content li {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        .message-content code {
+            font-family: var(--font-code);
+            background: rgba(var(--dark), 0.4);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .message-content pre {
+            background: rgba(var(--dark), 0.6);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .message-content pre code {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+
+        .message-content blockquote {
+            border-left: 4px solid var(--primary);
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background: rgba(var(--dark), 0.3);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .message-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .message-content th,
+        .message-content td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .message-content th {
+            background: rgba(var(--dark), 0.4);
+            font-weight: 600;
+        }
+
+        .message-content tr:nth-child(even) {
+            background: rgba(var(--dark), 0.2);
+        }
+
+        .message-content a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .message-content a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .message-content img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .message-content hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-left: auto;
+        }
+
+        .profile-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nav-color);
+            margin-right: 1rem;
+        }
+
+        .profile-toggle i {
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-toggle:hover {
+            transform: scale(1.1);
+            color: var(--nav-hover);
+        }
+
+        .profile-toggle:hover i {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-actions {
+                gap: 1rem;
+            }
+        }
+
+        /* Feedback Form Styles */
+        .feedback-section {
+            max-width: 800px;
+            margin: 0;
+            padding: 2rem;
+            background: rgba(var(--dark), 0.6);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .feedback-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -48%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .feedback-back-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-back-button:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            transform: scale(1.1);
+        }
+
+        .feedback-section h2 {
+            color: var(--text);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 600;
+            padding-right: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(var(--dark), 0.4);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .satisfaction-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .satisfaction-option {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .satisfaction-option input[type="radio"] {
+            display: none;
+        }
+
+        .satisfaction-option span {
+            display: block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .satisfaction-option input[type="radio"]:checked + span {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: var(--button-text);
+            transform: scale(1.1);
+        }
+
+        .satisfaction-option:hover span {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* Add overlay when feedback form is active */
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .feedback-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: rgba(var(--dark), 0.4);
+            color: var(--text);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            margin-top: 0.5rem;
+            letter-spacing: 0.3px;
+        }
+
+        .feedback-form textarea::placeholder {
+            color: rgba(var(--text-rgb), 0.5);
+            font-style: italic;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-form .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .feedback-form label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-form .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--button-text);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .feedback-form .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .feedback-form .success-message {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background: rgba(76, 175, 80, 0.1);
+            font-weight: 500;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-link:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .feedback-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .feedback-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        [data-theme="light"] .theme-toggle .theme-icon {
+            color: #000000;
+        }
+
+        /* Resume Builder Styles */
+        .resume-builder-section {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f5f6fa;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .resume-builder-section.active {
+            display: block;
+        }
+
+        .resume-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .form-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .preview-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .template-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding: 1rem;
+        }
+
+        .template-option {
+            min-width: 200px;
+            border: 2px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .template-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .template-option.selected {
+            border-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .template-option img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .editor-toolbar {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .editor-content {
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            background: white;
+        }
+
+        .action-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .action-buttons button {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            border: none;
+            background: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remove-btn {
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-option.selected {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            margin: 0.25rem;
+        }
+
+        .preview-controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .font-size-control button {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .font-size-control button:hover {
+            background: #f8f9fa;
+        }
+
+        .close-resume-builder {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-resume-builder:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <div class="logo">
+                <i class="fas fa-terminal"></i>
+                <span>GuideX</span>
+            </div>
+
+            <!-- Sign In Form -->
+            <div class="form-container active" id="signin-form">
+                <div class="social-login">
+                    <button class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="social-btn gmail">
+                        <i class="fas fa-envelope"></i>
+                        Gmail
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <form id="signin">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn">Sign In</button>
+                    <div class="links">
+                        <a href="#" id="forgot-password">Forgot Password?</a>
+                    </div>
+                    <div class="form-toggle">
+                        Don't have an account? <a href="#" id="show-signup">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-container" id="signup-form">
+                <form id="signup">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn">Sign Up</button>
+                    <div class="form-toggle">
+                        Already have an account? <a href="#" id="show-signin">Sign In</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div class="form-container" id="forgot-form">
+                <form id="forgot">
+                    <div class="form-group">
+                        <label for="forgot-email">Email</label>
+                        <input type="email" id="forgot-email" required>
+                    </div>
+                    <button type="submit" class="btn">Send Verification Code</button>
+                    <div class="form-toggle">
+                        Remember your password? <a href="#" id="back-to-signin">Sign In</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Verification Code Form -->
+            <div class="form-container" id="verification-form">
+                <form id="verification">
+                    <div class="form-group">
+                        <label>Enter Verification Code</label>
+                        <div class="verification-input">
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                            <input type="text" maxlength="1" pattern="[0-9]" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Verify Code</button>
+                    <div class="form-toggle">
+                        Didn't receive the code? <a href="#" id="resend-code">Resend</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Reset Password Form -->
+            <div class="form-container" id="reset-form">
+                <form id="reset">
+                    <div class="form-group">
+                        <label for="reset-password">New Password</label>
+                        <input type="password" id="reset-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reset-confirm-password">Confirm New Password</label>
+                        <input type="password" id="reset-confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn">Reset Password</button>
+                </form>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+        </div>
+    </div>
+
+    <!-- Background animation -->
+    <div class="bg-animation">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-terminal"></i> <span>GuideX</span>
+            <span class="made-by">made By CodeStrom</span>
+        </div>
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="#" class="feedback-link">Feedback</a>
+                <a href="resume-builder.html" class="resume-link">Resume Builder</a>
+            </div>
+            <div class="nav-actions">
+                <div class="separator"></div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-sun theme-icon"></i>
+                    <i class="fas fa-moon theme-icon"></i>
+                </button>
+                <button class="profile-toggle" id="profileToggle">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="nav-links">
+            <div class="profile-section">
+                <div class="user-info">
+                    <div class="profile-picture-container">
+                        <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile Picture" class="profile-picture" id="profile-picture">
+                        <div class="profile-picture-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <input type="file" id="profile-picture-input" accept="image/*">
+                    <div class="editable-field">
+                        <input type="text" class="user-name-input" value="User Name">
+                        <i class="fas fa-edit edit-icon"></i>
+                    </div>
+                    <span class="user-email">user@email.com</span>
+                    <div class="editable-field">
+                        <input type="text" class="user-profession-input" value="Add your profession">
+                        <i class="fas fa-edit edit-icon"></i>
+                    </div>
+                </div>
+                <button class="save-profile-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero main-content">
+        <div class="hero-content">
+            <h1>Welcome to <div class="logo"><i class="fas fa-terminal"></i> GuideX</div></h1>
+            <p>Get personalized guidance, expert tips, and intelligent insights to accelerate your professional growth.</p>
+            <a href="#" class="btn" id="startChat"><i class="fas fa-comments"></i> Start Chatting Now</a>
+            
+            <div class="example-questions">
+                <h3>Try asking me about:</h3>
+                <ul class="question-list">
+                    <li class="question-item" id="web-dev">
+                        <i class="fas fa-code"></i>
+                        "What programming languages should I learn for web development?"
+                    </li>
+                    <li class="question-item" id="resume-tips">
+                        <i class="fas fa-briefcase"></i>
+                        "How can I improve my resume for a software developer position?"
+                    </li>
+                    <li class="question-item" id="ai-trends">
+                        <i class="fas fa-chart-line"></i>
+                        "What are the current trends in AI and machine learning?"
+                    </li>
+                    <li class="question-item" id="fullstack">
+                        <i class="fas fa-graduation-cap"></i>
+                        "What skills should I focus on to become a full-stack developer?"
+                    </li>
+                    <li class="question-item" id="networking">
+                        <i class="fas fa-users"></i>
+                        "How can I build a strong professional network in tech?"
+                    </li>
+                    <li class="question-item" id="career-transition">
+                        <i class="fas fa-rocket"></i>
+                        "What's the best way to transition into a tech career?"
+                    </li>
+                    <li class="question-item" id="interview-prep">
+                        <i class="fas fa-comments"></i>
+                        "Help me prepare for my technical interview"
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <div class="container" id="chat">
+        <button class="back-button" id="backButton">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <div class="chat-wrapper">
+            <div class="chat-header">
+                <h2><i class="fas fa-terminal"></i> GuideX Terminal</h2>
+            </div>
+            <div id="chat-box" class="chat-box">
+                <div class="message bot">
+                    <i class="fas fa-terminal"></i> System initialized...<br/>
+                    Welcome to GuideX v1.0.0<br/><br/>
+                    <i class="fas fa-chevron-right"></i> How can I assist you today?
+                </div>
+            </div>
+            <div class="chat-input">
+                <div class="file-input-container">
+                    <input type="file" id="file-input" class="file-input" accept="image/*,.pdf,.doc,.docx,.txt,.md">
+                    <button class="file-input-button" id="file-input-button">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <input type="text" id="user-input" placeholder="Type your instructions or query here..." />
+                <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features main-content" id="features">
+        <div class="features-heading">
+            <h2>How GuideX Assists You</h2>
+            <p>Our intelligent system provides tailored guidance to help you advance your journey</p>
+        </div>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-search-plus"></i></div>
+                <h3>Skills Analysis</h3>
+                <p>Identify your strengths and areas for improvement to maximize your career potential.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Market Trends</h3>
+                <p>Stay updated with the latest job market trends and in-demand skills in your industry.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                <h3>Resume Building</h3>
+                <p>Get personalized tips to optimize your resume and stand out from the competition.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add overlay div before feedback section -->
+    <div class="feedback-overlay" id="feedbackOverlay"></div>
+    
+    <!-- Feedback Section -->
+    <section id="feedback" class="feedback-section">
+        <button class="feedback-back-button" id="feedbackBackButton">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>We Value Your Feedback</h2>
+        <form id="feedbackForm" class="feedback-form">
+            <div class="form-group">
+                <label>How satisfied are you with our service?</label>
+                <div class="satisfaction-scale">
+                    <label class="satisfaction-option">
+                        <input type="radio" name="satisfaction" value="1">
+                        <span>1</span>
+                    </label>
+                    <label class="satisfaction-option">
+                        <input type="radio" name="satisfaction" value="2">
+                        <span>2</span>
+                    </label>
+                    <label class="satisfaction-option">
+                        <input type="radio" name="satisfaction" value="3">
+                        <span>3</span>
+                    </label>
+                    <label class="satisfaction-option">
+                        <input type="radio" name="satisfaction" value="4">
+                        <span>4</span>
+                    </label>
+                    <label class="satisfaction-option">
+                        <input type="radio" name="satisfaction" value="5">
+                        <span>5</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="feedback-text">Additional Comments</label>
+                <textarea id="feedback-text" rows="4" placeholder="Share your thoughts..."></textarea>
+            </div>
+            <button type="submit" class="btn">Submit Feedback</button>
+            <div class="success-message" style="display: none;">
+                Thank you for your feedback!
+            </div>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo"><i class="fas fa-terminal"></i> <span>GuideX</span>
+                <span class="made-by">made By CodeStrom</span>
+            </div>
+            <p>© 2025 GuideX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Resume Builder Section -->
+    <div class="resume-builder-section" id="resumeBuilder">
+        <button class="close-resume-builder" onclick="closeResumeBuilder()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="container resume-container">
+            <h1 class="text-center mb-4">Professional Resume Builder</h1>
+            
+            <div class="template-selector">
+                <div class="template-option" onclick="selectTemplate(1)">
+                    <img src="https://via.placeholder.com/200x150/3498db/ffffff?text=Template+1" alt="Template 1">
+                    <div>Modern</div>
+                </div>
+                <div class="template-option" onclick="selectTemplate(2)">
+                    <img src="https://via.placeholder.com/200x150/e74c3c/ffffff?text=Template+2" alt="Template 2">
+                    <div>Classic</div>
+                </div>
+                <div class="template-option" onclick="selectTemplate(3)">
+                    <img src="https://via.placeholder.com/200x150/2ecc71/ffffff?text=Template+3" alt="Template 3">
+                    <div>Minimal</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <form id="resumeForm">
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" rows="2"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="summary" class="form-label">Professional Summary</label>
+                                <textarea class="form-control" id="summary" rows="3"></textarea>
+                            </div>
+                            
+                            <h3 class="mt-4">Education</h3>
+                            <div id="educationContainer">
+                                <div class="education-entry mb-3">
+                                    <div class="section-header">
+                                        <h4>Education Entry</h4>
+                                        <span class="remove-btn" onclick="removeSection(this)"><i class="fas fa-times"></i></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Degree</label>
+                                        <input type="text" class="form-control" name="degree" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Institution</label>
+                                        <input type="text" class="form-control" name="institution" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Year</label>
+                                        <input type="text" class="form-control" name="year" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">GPA (Optional)</label>
+                                        <input type="text" class="form-control" name="gpa">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addEducation()">Add Education</button>
+
+                            <h3 class="mt-4">Experience</h3>
+                            <div id="experienceContainer">
+                                <div class="experience-entry mb-3">
+                                    <div class="section-header">
+                                        <h4>Experience Entry</h4>
+                                        <span class="remove-btn" onclick="removeSection(this)"><i class="fas fa-times"></i></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Position</label>
+                                        <input type="text" class="form-control" name="position" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Company</label>
+                                        <input type="text" class="form-control" name="company" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Duration</label>
+                                        <input type="text" class="form-control" name="duration" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" name="description" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="addExperience()">Add Experience</button>
+
+                            <h3 class="mt-4">Skills</h3>
+                            <div class="mb-3">
+                                <label class="form-label">Skills (comma separated)</label>
+                                <input type="text" class="form-control" id="skills">
+                            </div>
+
+                            <button type="button" class="btn btn-primary" onclick="generateResume()">Generate Resume</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="preview-section">
+                        <h3>Resume Preview</h3>
+                        <div class="preview-controls no-print">
+                            <div class="color-picker">
+                                <div class="color-option selected" style="background-color: #3498db;" onclick="changeColor('#3498db')"></div>
+                                <div class="color-option" style="background-color: #e74c3c;" onclick="changeColor('#e74c3c')"></div>
+                                <div class="color-option" style="background-color: #2ecc71;" onclick="changeColor('#2ecc71')"></div>
+                                <div class="color-option" style="background-color: #9b59b6;" onclick="changeColor('#9b59b6')"></div>
+                            </div>
+                            <div class="font-size-control">
+                                <button onclick="changeFontSize('decrease')"><i class="fas fa-minus"></i></button>
+                                <span id="fontSize">16px</span>
+                                <button onclick="changeFontSize('increase')"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="editor-toolbar no-print">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('bold')"><i class="fas fa-bold"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('italic')"><i class="fas fa-italic"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('underline')"><i class="fas fa-underline"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('bullet')"><i class="fas fa-list-ul"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('justifyLeft')"><i class="fas fa-align-left"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('justifyCenter')"><i class="fas fa-align-center"></i></button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="formatText('justifyRight')"><i class="fas fa-align-right"></i></button>
+                        </div>
+                        <div id="resumePreview" class="editor-content" contenteditable="true"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons no-print">
+                <button onclick="printResume()"><i class="fas fa-print"></i> Print</button>
+                <button onclick="downloadResume()"><i class="fas fa-download"></i> Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const config = {
+            apiEndpoint: 'https://api.openai.com/v1/chat/completions',
+            apiKey: 'Your OpenAi API key', // Your API key
+            model: 'gpt-3.5-turbo',
+            maxRetries: 3,
+            retryDelay: 1000
+        };
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const forgotForm = document.getElementById('forgot-form');
+        const verificationForm = document.getElementById('verification-form');
+        const resetForm = document.getElementById('reset-form');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const startChatBtn = document.getElementById('startChat');
+        const backButton = document.getElementById('backButton');
+        const chatContainer = document.getElementById('chat');
+        const mainContent = document.querySelectorAll('.main-content');
+        const chatBox = document.getElementById("chat-box");
+        const fileInput = document.getElementById('file-input');
+        const fileInputButton = document.getElementById('file-input-button');
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+        let currentFile = null;
+        let isProcessing = false;
+        let currentFileContent = null;
+
+        // Feedback functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const feedbackLink = document.querySelector('.feedback-link');
+            const feedbackSection = document.getElementById('feedback');
+            const feedbackBackButton = document.getElementById('feedbackBackButton');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const mainContent = document.querySelector('.main-content');
+            const feedbackOverlay = document.createElement('div');
+            feedbackOverlay.className = 'feedback-overlay';
+            document.body.appendChild(feedbackOverlay);
+
+            // Feedback link click handler
+            if (feedbackLink) {
+                feedbackLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mainContent.style.display = 'none';
+                    feedbackSection.style.display = 'block';
+                    feedbackOverlay.classList.add('active');
+                    feedbackSection.classList.add('active');
+                });
+            }
+
+            // Back button click handler
+            if (feedbackBackButton) {
+                feedbackBackButton.addEventListener('click', function() {
+                    mainContent.style.display = 'block';
+                    feedbackSection.style.display = 'none';
+                    feedbackOverlay.classList.remove('active');
+                    feedbackSection.classList.remove('active');
+                });
+            }
+
+            // Close on overlay click
+            feedbackOverlay.addEventListener('click', function() {
+                mainContent.style.display = 'block';
+                feedbackSection.style.display = 'none';
+                feedbackOverlay.classList.remove('active');
+                feedbackSection.classList.remove('active');
+            });
+
+            // Feedback form submission handler
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const satisfaction = document.querySelector('input[name="satisfaction"]:checked')?.value;
+                    const feedback = document.getElementById('feedback-text').value;
+
+                    if (!satisfaction) {
+                        alert('Please select your satisfaction level');
+                        return;
+                    }
+
+                    // Show success message
+                    const successMessage = this.querySelector('.success-message');
+                    successMessage.style.display = 'block';
+
+                    // Reset form
+                    this.reset();
+
+                    // Hide success message and close form after 3 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                        mainContent.style.display = 'block';
+                        feedbackSection.style.display = 'none';
+                        feedbackOverlay.classList.remove('active');
+                        feedbackSection.classList.remove('active');
+                    }, 3000);
+                });
+            }
+        });
+
+        // Chat functionality variables
+        const systemPrompt = {
+            role: "system",
+            content: `You are an AI-powered Career Advisor designed to guide users at every stage of their career journey. Your mission is to be highly practical, insightful, and friendly.
+
+You must:
+1. Assess user skills, background, and interests.
+2. Analyze the latest job market and skill trends using real-time data (via web search or APIs when tools are enabled).
+3. Recommend high-potential career paths and in-demand roles based on user's current profile and market demand.
+4. Identify skill gaps and suggest actionable learning paths.
+5. Generate a polished, professional resume in Markdown or LaTeX (for PDF generation).
+6. Suggest which skills to add to the resume for future growth and job matching.
+7. Provide customized interview questions and strong sample answers tailored to the user's dream role.
+8. Share practical networking strategies, LinkedIn profile optimization tips, and relevant community involvement ideas.
+
+For Interview Preparation:
+1. Ask the user about their target role and company
+2. Provide role-specific technical and behavioral questions
+3. Analyze their answers and provide constructive feedback
+4. Suggest improvements for their responses
+5. Offer tips for common interview scenarios
+6. Help with technical problem-solving approaches
+7. Guide on how to structure STAR method responses
+8. Provide industry-specific best practices
+
+🧠 You must guide the user step by step:
+
+🔹 Step 1: Ask about the user's current skills, work experience, education, interests, and career goals.
+🔹 Step 2: Suggest suitable job roles based on the latest job market trends. Use specific real-time job data and examples from platforms like LinkedIn, Indeed, Naukri, etc. when available.
+🔹 Step 3: Generate a resume using user inputs and highlight strengths clearly. Make it downloadable as PDF by formatting it cleanly in Markdown or LaTeX.
+🔹 Step 4: Identify missing skills for their dream role and recommend trending tools, certifications, or platforms to learn them.
+🔹 Step 5: Offer tailored interview questions they might be asked based on the role, and give high-quality sample answers.
+🔹 Step 6: Give practical networking advice (e.g., LinkedIn messaging strategies, meetups, forums, or mentorship platforms).
+
+For Interview Preparation Mode:
+🔹 Step 1: Ask about target role and company
+🔹 Step 2: Present relevant technical questions
+🔹 Step 3: Ask for user's response
+🔹 Step 4: Analyze and provide feedback
+🔹 Step 5: Suggest improvements
+🔹 Step 6: Move to next question or topic
+🔹 Step 7: Provide final tips and preparation advice
+
+🔁 If the user repeats similar questions later, always vary your answers with new examples and updated info. Stay fresh, personalized, and highly accurate.
+
+✅ Always be:
+- Friendly and supportive
+- Step-by-step in structure
+- Focused on actionable and personalized advice
+- Conversational but professional
+
+📊 Use real-time tools (web or APIs) to stay up to date on market demand, salaries, trending skills, and job listings whenever possible.
+
+    here are some api keys for you:
+    -https://www.linkedin.com/jobs
+    - https://www.indeed.com/q-full-stack-developer-jobs.html
+    - https://www.glassdoor.com/Job/full-stack-developer-jobs
+    - https://www.naukri.com/full-stack-developer-jobs
+    - https://www.monster.com/jobs/search/?q=full-stack-developer&where=India
+    - https://www.ziprecruiter.com/jobs/full-stack-developer
+    - https://www.simplyhired.com/search?q=full-stack-developer&l=India
+    - https://www.glassdoor.com/Reviews/index.htm?overall_rating=1&sortBy=OverallRating&sortType=DESC&page=2
+
+    -when user ask about "Help me prepare for my technical interview" you should ask for the following details:
+    1. What role are you interviewing for?
+    2. Which company/companies are you targeting?
+    3. What's your current experience level?
+
+    When user ask which type of question they will face in the interview then you ask user to which type of conversation they want for interview training like interective interview sesson or direct provide interview question.
+
+
+    and also provide all resource links for the user to prepare for the interview in a step by step manner.
+
+🚀 Your ultimate goal is to make the user job-ready, confident, and future-proof in their career.`
+        };
+
+        const messages = [systemPrompt];
+
+        // Form Toggle Functions
+        function showForm(formId) {
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(formId).classList.add('active');
+            hideMessages();
+        }
+
+        function showMessage(type, message) {
+            hideMessages();
+            const messageElement = document.getElementById(`${type}-message`);
+            messageElement.textContent = message;
+            messageElement.style.display = 'block';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        // Form Event Listeners
+        document.getElementById('show-signup').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForm('signup-form');
+        });
+
+        document.getElementById('show-signin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForm('signin-form');
+        });
+
+        document.getElementById('forgot-password').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForm('forgot-form');
+        });
+
+        document.getElementById('back-to-signin').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForm('signin-form');
+        });
+
+        document.getElementById('resend-code').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Implement resend code functionality
+            showMessage('success', 'Verification code resent!');
+        });
+
+        // Form Submission Handlers
+        document.getElementById('signin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Here you would typically validate credentials with your backend
+                // For demo purposes, we'll just simulate a successful login
+                await simulateLogin(email, password);
+                showMessage('success', 'Login successful!');
+                setTimeout(() => {
+                    loginPage.style.display = 'none';
+                    mainContent.forEach(element => {
+                        element.style.display = 'block';
+                    });
+                }, 1000);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        document.getElementById('signup').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showMessage('error', 'Passwords do not match!');
+                return;
+            }
+
+            try {
+                // Here you would typically register the user with your backend
+                // For demo purposes, we'll just simulate a successful registration
+                await simulateRegistration(name, email, password);
+                showMessage('success', 'Registration successful! Please sign in.');
+                setTimeout(() => showForm('signin-form'), 1500);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        document.getElementById('forgot').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+
+            try {
+                // Here you would typically send a verification code to the user's email
+                // For demo purposes, we'll just simulate sending the code
+                await simulateSendVerificationCode(email);
+                showMessage('success', 'Verification code sent!');
+                setTimeout(() => showForm('verification-form'), 1500);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        document.getElementById('verification').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = Array.from(document.querySelectorAll('.verification-input input'))
+                .map(input => input.value)
+                .join('');
+
+            try {
+                // Here you would typically verify the code with your backend
+                // For demo purposes, we'll just simulate verification
+                await simulateVerifyCode(code);
+                showMessage('success', 'Code verified!');
+                setTimeout(() => showForm('reset-form'), 1500);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        document.getElementById('reset').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('reset-password').value;
+            const confirmPassword = document.getElementById('reset-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                showMessage('error', 'Passwords do not match!');
+                return;
+            }
+
+            try {
+                // Here you would typically update the password with your backend
+                // For demo purposes, we'll just simulate password reset
+                await simulateResetPassword(password);
+                showMessage('success', 'Password reset successful!');
+                setTimeout(() => showForm('signin-form'), 1500);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        // Social Login Handlers
+        document.querySelector('.social-btn.google').addEventListener('click', async () => {
+            try {
+                await simulateGoogleLogin();
+                showMessage('success', 'Google login successful!');
+                setTimeout(() => {
+                    loginPage.style.display = 'none';
+                    mainContent.forEach(element => {
+                        element.style.display = 'block';
+                    });
+                }, 1000);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        document.querySelector('.social-btn.gmail').addEventListener('click', async () => {
+            try {
+                await simulateGmailLogin();
+                showMessage('success', 'Gmail login successful!');
+                setTimeout(() => {
+                    loginPage.style.display = 'none';
+                    mainContent.forEach(element => {
+                        element.style.display = 'block';
+                    });
+                }, 1000);
+            } catch (error) {
+                showMessage('error', error.message);
+            }
+        });
+
+        // Simulation Functions (Replace these with actual API calls)
+        async function simulateLogin(email, password) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (email && password) {
+                        resolve();
+                    } else {
+                        reject(new Error('Invalid credentials'));
+                    }
+                }, 1000);
+            });
+        }
+
+        async function simulateRegistration(name, email, password) {
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+        }
+
+        async function simulateSendVerificationCode(email) {
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+        }
+
+        async function simulateVerifyCode(code) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (code.length === 6) {
+                        resolve();
+                    } else {
+                        reject(new Error('Invalid verification code'));
+                    }
+                }, 1000);
+            });
+        }
+
+        async function simulateResetPassword(password) {
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+        }
+
+        async function simulateGoogleLogin() {
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+        }
+
+        async function simulateGmailLogin() {
+            return new Promise((resolve) => {
+                setTimeout(resolve, 1000);
+            });
+        }
+
+        // Verification Code Input Handler
+        const verificationInputs = document.querySelectorAll('.verification-input input');
+        verificationInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1) {
+                    if (index < verificationInputs.length - 1) {
+                        verificationInputs[index + 1].focus();
+                    }
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    verificationInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Event Listeners
+        startChatBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainContent.forEach(element => {
+                element.style.display = 'none';
+            });
+            chatContainer.classList.add('active');
+            backButton.classList.add('visible');
+            document.body.style.overflow = 'auto';
+        });
+
+        backButton.addEventListener('click', () => {
+            chatContainer.classList.remove('active');
+            backButton.classList.remove('visible');
+            mainContent.forEach(element => {
+                element.style.display = 'block';
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        sendBtn.addEventListener("click", handleSendMessage);
+        userInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") handleSendMessage();
+        });
+
+        fileInputButton.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', handleFileUpload);
+
+        // File Handling Functions
+        async function handleFileUpload(e) {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const file = e.target.files[0];
+            if (!file) {
+                isProcessing = false;
+                return;
+            }
+
+            try {
+                currentFile = file;
+                const fileType = file.type;
+                const fileName = file.name;
+                const fileSize = formatFileSize(file.size);
+
+                addMessage('user', `
+                    <div class="file-info uploading">
+                        <i class="fas fa-spinner fa-spin"></i> Processing ${fileName} (${fileSize})...
+                    </div>
+                `, true);
+
+                let fileContent = '';
+                let prompt = '';
+
+                if (fileType.startsWith('image/')) {
+                    fileContent = await processImageWithOCR(file);
+                    prompt = `I've uploaded an image containing the following text:\n\n${fileContent}\n\n`;
+                } else if (fileType === 'application/pdf') {
+                    fileContent = await extractTextFromPDF(file);
+                    prompt = `I've uploaded a PDF file named "${fileName}" containing:\n\n${fileContent}\n\n`;
+                } else if (fileType.match(/text\/.*/) || fileType === 'application/json') {
+                    fileContent = await readTextFile(file);
+                    prompt = `I've uploaded a text file named "${fileName}" containing:\n\n${fileContent}\n\n`;
+                } else {
+                    throw new Error('Unsupported file type. Please upload images, PDFs, or text files.');
+                }
+
+                const uploadingMsg = chatBox.querySelector('.uploading');
+                if (uploadingMsg) {
+                    uploadingMsg.innerHTML = `
+                        <div class="file-info">
+                            <i class="fas fa-file"></i> ${fileName} (${fileSize})
+                        </div>
+                        <div class="file-preview">${formatFilePreview(fileContent, fileType)}</div>
+                    `;
+                    uploadingMsg.classList.remove('uploading');
+                }
+
+                // Wait for user instructions before processing
+                addMessage("bot", "Please provide instructions on how you'd like me to analyze this file. For example:\n- Summarize the content\n- Extract key points\n- Analyze specific aspects\n- Compare with industry standards\n- Suggest improvements");
+
+                // Store the file content and prompt for later use
+                currentFileContent = {
+                    content: fileContent,
+                    prompt: prompt,
+                    fileName: fileName,
+                    fileType: fileType
+                };
+
+            } catch (error) {
+                console.error("Error processing file:", error);
+                addMessage("bot", `Sorry, I couldn't process that file. ${error.message}`);
+            } finally {
+                fileInput.value = '';
+                isProcessing = false;
+            }
+        }
+
+        // Image Processing with Tesseract OCR
+        async function processImageWithOCR(imageFile) {
+            try {
+                const { data: { text } } = await Tesseract.recognize(imageFile);
+                return text || 'No text detected in the image.';
+            } catch (error) {
+                console.error('OCR Error:', error);
+                throw new Error('Failed to process image with OCR. Please try another image.');
+            }
+        }
+
+        // PDF Text Extraction
+        async function extractTextFromPDF(pdfFile) {
+            try {
+                const arrayBuffer = await pdfFile.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                let fullText = '';
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const text = textContent.items.map(item => item.str).join(' ');
+                    fullText += text + '\n\n';
+                }
+                
+                return fullText || 'No text detected in the PDF.';
+            } catch (error) {
+                console.error('PDF Processing Error:', error);
+                throw new Error('Failed to extract text from PDF. Please try another file.');
+            }
+        }
+
+        // Text File Reading
+        async function readTextFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(new Error("Failed to read file"));
+                reader.readAsText(file);
+            });
+        }
+
+        // Initialize PDF.js worker
+        const pdfjsLib = window.pdfjsLib;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+
+        async function handleSendMessage() {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const userMsg = userInput.value.trim();
+            
+            if (!userMsg && !currentFileContent) {
+                isProcessing = false;
+                return;
+            }
+
+            try {
+                if (currentFileContent) {
+                    // Combine file content with user instructions
+                    const fullPrompt = `${currentFileContent.prompt}Please ${userMsg}`;
+                    addMessage("user", `File: ${currentFileContent.fileName}\nInstructions: ${userMsg}`);
+                    messages.push({ role: "user", content: fullPrompt });
+                    currentFileContent = null; // Clear the stored file content
+                } else if (userMsg) {
+                    addMessage("user", userMsg);
+                    messages.push({ role: "user", content: userMsg });
+                }
+                
+                await getBotResponse();
+                userInput.value = "";
+            } catch (error) {
+                console.error("Error sending message:", error);
+                addMessage("bot", "⚠️ Something went wrong. Please try again.");
+            } finally {
+                isProcessing = false;
+            }
+        }
+
+        async function getBotResponse() {
+            const loadingMsg = document.createElement("div");
+            loadingMsg.classList.add("message", "bot", "loading");
+            loadingMsg.textContent = "Thinking...";
+            chatBox.appendChild(loadingMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const botResponse = await fetchOpenAI();
+                addMessage("bot", formatMarkdown(botResponse));
+                messages.push({ role: "assistant", content: botResponse });
+            } catch (error) {
+                console.error(error);
+                addMessage("bot", "⚠️ Something went wrong. Please try again.");
+            } finally {
+                const loadingElement = chatBox.querySelector('.loading');
+                if (loadingElement) chatBox.removeChild(loadingElement);
+            }
+        }
+
+        async function fetchOpenAI() {
+            if (!config.apiKey) {
+                throw new Error('API key not configured');
+            }
+
+            let retries = 0;
+            while (retries < config.maxRetries) {
+                try {
+                    const res = await fetch(config.apiEndpoint, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${config.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: config.model,
+                            messages: messages,
+                            temperature: 0.7,
+                            max_tokens: 1000
+                        })
+                    });
+
+                    if (!res.ok) {
+                        const errorData = await res.json();
+                        throw new Error(errorData.error?.message || `HTTP error! status: ${res.status}`);
+                    }
+
+                    const data = await res.json();
+                    if (!data.choices || !data.choices[0]?.message?.content) {
+                        throw new Error('Invalid response format from API');
+                    }
+
+                    return data.choices[0].message.content.trim();
+                } catch (error) {
+                    console.error('API Error:', error);
+                    retries++;
+                    if (retries === config.maxRetries) {
+                        throw new Error(`Failed to get response: ${error.message}`);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, config.retryDelay));
+                }
+            }
+        }
+
+        // Utility Functions
+        function addMessage(sender, text, isUploading = false) {
+            const msgDiv = document.createElement("div");
+            msgDiv.classList.add("message", sender);
+            if (isUploading) msgDiv.classList.add('uploading');
+            
+            if (typeof text === 'string' && (text.includes('<div class="message-content">') || 
+                text.includes('<div class="file-info">'))) {
+                msgDiv.innerHTML = text;
+            } else {
+                msgDiv.innerHTML = formatMarkdown(text);
+            }
+            
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function formatFilePreview(content, fileType) {
+            if (fileType.startsWith('image/')) {
+                return `<img src="${URL.createObjectURL(currentFile)}" alt="Uploaded image" style="max-width: 100%; max-height: 200px;">`;
+            }
+            
+            const previewText = content.length > 500 
+                ? content.substring(0, 500) + '...' 
+                : content;
+            
+            return `<div class="text-preview">${previewText}</div>`;
+        }
+
+        // Theme and Mobile Menu
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = themeToggle.querySelector('.fa-sun');
+        const moonIcon = themeToggle.querySelector('.fa-moon');
+        const profileToggle = document.getElementById('profileToggle');
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcons(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        });
+
+        function updateThemeIcons(theme) {
+            if (theme === 'dark') {
+                sunIcon.style.opacity = '0';
+                moonIcon.style.opacity = '1';
+            } else {
+                sunIcon.style.opacity = '1';
+                moonIcon.style.opacity = '0';
+            }
+        }
+
+        // Profile toggle functionality
+        profileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            const icon = profileToggle.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-user-circle');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-user-circle');
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !profileToggle.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                const icon = profileToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-user-circle');
+            }
+        });
+
+        // Prevent mobile menu from closing when clicking inside it
+        mobileMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add any initialization code here
+        });
+
+        // Scroll-based header behavior
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('.navbar');
+        const scrollThreshold = 50; // Minimum scroll amount before hiding/showing header
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Only trigger if we've scrolled more than the threshold
+            if (Math.abs(currentScroll - lastScrollTop) > scrollThreshold) {
+                if (currentScroll > lastScrollTop && currentScroll > 100) {
+                    // Scrolling down & not at the top
+                    navbar.classList.add('hidden');
+                } else {
+                    // Scrolling up
+                    navbar.classList.remove('hidden');
+                }
+                lastScrollTop = currentScroll;
+            }
+        });
+
+        // Add event listener for interview preparation
+        document.getElementById('interview-prep').addEventListener('click', () => {
+            mainContent.forEach(element => {
+                element.style.display = 'none';
+            });
+            chatContainer.classList.add('active');
+            backButton.classList.add('visible');
+            document.body.style.overflow = 'auto';
+            
+            // Clear previous messages
+            chatBox.innerHTML = '';
+            
+            // Add initial interview preparation message
+            addMessage("bot", `👋 Welcome to Interview Preparation Mode!
+
+I'll help you prepare for your technical interview. To get started, please tell me:
+1. What role are you interviewing for?
+2. Which company/companies are you targeting?
+3. What's your current experience level?
+
+This will help me provide you with the most relevant questions and feedback.`);
+        });
+
+        function formatMarkdown(text) {
+            return `<div class="message-content">${text
+                // Headers
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
+                .replace(/^##### (.*$)/gm, '<h5>$1</h5>')
+                .replace(/^###### (.*$)/gm, '<h6>$1</h6>')
+                
+                // Blockquotes
+                .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
+                
+                // Lists
+                .replace(/^\s*\d+\.\s+(.*$)/gm, '<li>$1</li>')
+                .replace(/^\s*[\-\*]\s+(.*$)/gm, '<li>$1</li>')
+                
+                // Code blocks
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                
+                // Inline code
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                
+                // Links
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
+                
+                // Images
+                .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">')
+                
+                // Bold and Italic
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                
+                // Horizontal Rule
+                .replace(/^---$/gm, '<hr>')
+                
+                // Tables
+                .replace(/\|(.+)\|/g, function(match) {
+                    return '<tr>' + match.split('|').filter(cell => cell.trim()).map(cell => 
+                        cell.trim().startsWith('---') ? '' : `<td>${cell.trim()}</td>`
+                    ).join('') + '</tr>';
+                })
+                
+                // Line breaks
+                .replace(/\n/g, '<br>')}</div>`;
+        }
+
+        // Question item click handlers
+        const questionItems = document.querySelectorAll('.question-item');
+        
+        questionItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active class from all items
+                questionItems.forEach(qi => qi.classList.remove('clicked'));
+                // Add active class to clicked item
+                item.classList.add('clicked');
+                
+                // Hide main content and show chat
+                mainContent.forEach(element => {
+                    element.style.display = 'none';
+                });
+                chatContainer.classList.add('active');
+                backButton.classList.add('visible');
+                document.body.style.overflow = 'auto';
+                
+                // Clear previous messages
+                chatBox.innerHTML = '';
+                
+                // Add initial message based on the question
+                let initialMessage = '';
+                switch(item.id) {
+                    case 'web-dev':
+                        initialMessage = `Let me help you understand the essential programming languages for web development.
+
+To provide the most relevant guidance, please tell me:
+1. Are you interested in frontend, backend, or full-stack development?
+2. Do you have any prior programming experience?
+3. What's your current skill level?`;
+                        break;
+                    case 'resume-tips':
+                        initialMessage = `I'll help you create a strong resume for software development positions.
+
+To provide targeted advice, please share:
+1. Your current resume (if you have one)
+2. Your target role/position
+3. Your years of experience
+4. Your key technical skills`;
+                        break;
+                    case 'ai-trends':
+                        initialMessage = `I'll help you understand the current trends in AI and machine learning.
+
+To provide relevant information, please tell me:
+1. Are you interested in any specific area of AI/ML?
+2. What's your current knowledge level in AI/ML?
+3. Are you looking to learn for career advancement or personal interest?`;
+                        break;
+                    case 'fullstack':
+                        initialMessage = `I'll guide you through the skills needed for full-stack development.
+
+To provide a personalized roadmap, please share:
+1. Your current technical background
+2. Your preferred tech stack (if any)
+3. Your learning goals and timeline`;
+                        break;
+                    case 'networking':
+                        initialMessage = `I'll help you build a strong professional network in tech.
+
+To provide specific strategies, please tell me:
+1. Your current networking goals
+2. Your preferred networking platforms
+3. Your industry focus area`;
+                        break;
+                    case 'career-transition':
+                        initialMessage = `I'll help you plan your transition into a tech career.
+
+To provide a tailored plan, please share:
+1. Your current career/background
+2. Your target tech role
+3. Your timeline for transition
+4. Any relevant skills you already have`;
+                        break;
+                    case 'interview-prep':
+                        initialMessage = `👋 Welcome to Interview Preparation Mode!
+
+I'll help you prepare for your technical interview. To get started, please tell me:
+1. What role are you interviewing for?
+2. Which company/companies are you targeting?
+3. What's your current experience level?
+
+This will help me provide you with the most relevant questions and feedback.`;
+                        break;
+                }
+                
+                addMessage("bot", initialMessage);
+            });
+        });
+
+        // Add feedback form functionality
+        document.querySelector('a[href="#feedback"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            mainContent.forEach(element => {
+                element.style.display = 'none';
+            });
+            document.getElementById('feedback').style.display = 'block';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Feedback form navigation
+        const questions = document.querySelectorAll('.question-card');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        let currentQuestion = 0;
+        const totalQuestions = questions.length;
+        const responses = {};
+        
+        function showQuestion(index) {
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `Question ${currentQuestion + 1} of ${totalQuestions}`;
+            
+            if (currentQuestion === totalQuestions - 1) {
+                nextBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+            } else {
+                nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+            }
+        }
+        
+        function updateNavigation() {
+            prevBtn.classList.toggle('disabled', currentQuestion === 0);
+            updateProgress();
+        }
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateNavigation();
+            } else {
+                submitFeedback();
+            }
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateNavigation();
+            }
+        });
+        
+        function submitFeedback() {
+            // Collect all responses
+            const feedback = {
+                conversationFlow: document.querySelector('input[name="conversation-flow"]:checked')?.value,
+                // Add other responses here
+            };
+            
+            console.log('Feedback submitted:', feedback);
+            // Here you would typically send the feedback to your backend
+            
+            // Show thank you message and return to main page
+            alert('Thank you for your feedback!');
+            document.getElementById('feedback').style.display = 'none';
+            mainContent.forEach(element => {
+                element.style.display = 'block';
+            });
+        }
+
+        // Add this to your existing script section
+        document.querySelector('a[href="#"].nav-link[title="Feedback"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.main-content').classList.add('hidden');
+            document.getElementById('chat').classList.remove('active');
+            document.getElementById('feedback').classList.add('active');
+            document.getElementById('feedbackBackButton').classList.add('visible');
+        });
+
+        document.getElementById('feedbackBackButton').addEventListener('click', function() {
+            document.querySelector('.main-content').classList.remove('hidden');
+            document.getElementById('feedback').classList.remove('active');
+            document.getElementById('feedbackBackButton').classList.remove('visible');
+        });
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const satisfaction = document.querySelector('input[name="satisfaction"]:checked')?.value;
+            const feedback = document.getElementById('feedback-text').value;
+
+            if (!satisfaction) {
+                alert('Please select your satisfaction level');
+                return;
+            }
+
+            // Here you would typically send the feedback to your server
+            console.log('Feedback submitted:', { satisfaction, feedback });
+
+            // Show success message
+            const successMessage = this.querySelector('.success-message');
+            successMessage.classList.add('active');
+
+            // Reset form
+            this.reset();
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('active');
+            }, 3000);
+        });
+
+        // Add this to your existing script section
+        document.querySelector('a.nav-link[href="#"]:has(i.fa-comment-dots)').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.main-content').classList.add('hidden');
+            document.getElementById('chat').classList.remove('active');
+            document.getElementById('feedback').classList.add('active');
+            document.getElementById('feedbackBackButton').classList.add('visible');
+        });
+
+        document.getElementById('feedbackBackButton').addEventListener('click', function() {
+            document.querySelector('.main-content').classList.remove('hidden');
+            document.getElementById('feedback').classList.remove('active');
+            document.getElementById('feedbackBackButton').classList.remove('visible');
+        });
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const satisfaction = document.querySelector('input[name="satisfaction"]:checked')?.value;
+            const feedback = document.getElementById('feedback-text').value;
+
+            if (!satisfaction) {
+                alert('Please select your satisfaction level');
+                return;
+            }
+
+            // Here you would typically send the feedback to your server
+            console.log('Feedback submitted:', { satisfaction, feedback });
+
+            // Show success message
+            const successMessage = this.querySelector('.success-message');
+            successMessage.classList.add('active');
+
+            // Reset form
+            this.reset();
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('active');
+            }, 3000);
+        });
+
+        // Add feedback functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all necessary elements
+            const feedbackLink = document.querySelector('.nav-links a[href="#"]:nth-child(3)');
+            const feedbackSection = document.getElementById('feedback');
+            const feedbackBackButton = document.getElementById('feedbackBackButton');
+            const feedbackForm = document.getElementById('feedbackForm');
+            const mainContent = document.querySelector('.main-content');
+
+            console.log('Feedback elements:', {
+                feedbackLink: feedbackLink,
+                feedbackSection: feedbackSection,
+                feedbackBackButton: feedbackBackButton,
+                feedbackForm: feedbackForm,
+                mainContent: mainContent
+            });
+
+            // Feedback link click handler
+            if (feedbackLink) {
+                feedbackLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Feedback link clicked');
+                    if (mainContent) mainContent.style.display = 'none';
+                    if (feedbackSection) {
+                        feedbackSection.style.display = 'block';
+                        feedbackSection.style.opacity = '1';
+                    }
+                    if (feedbackBackButton) feedbackBackButton.classList.add('visible');
+                });
+            }
+
+            // Back button click handler
+            if (feedbackBackButton) {
+                feedbackBackButton.addEventListener('click', function() {
+                    console.log('Back button clicked');
+                    if (mainContent) mainContent.style.display = 'block';
+                    if (feedbackSection) {
+                        feedbackSection.style.display = 'none';
+                        feedbackSection.style.opacity = '0';
+                    }
+                    if (feedbackBackButton) feedbackBackButton.classList.remove('visible');
+                });
+            }
+
+            // Feedback form submission handler
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Form submitted');
+                    const satisfaction = document.querySelector('input[name="satisfaction"]:checked')?.value;
+                    const feedback = document.getElementById('feedback-text').value;
+
+                    if (!satisfaction) {
+                        alert('Please select your satisfaction level');
+                        return;
+                    }
+
+                    // Here you would typically send the feedback to your server
+                    console.log('Feedback submitted:', { satisfaction, feedback });
+
+                    // Show success message
+                    const successMessage = this.querySelector('.success-message');
+                    if (successMessage) {
+                        successMessage.classList.add('active');
+                    }
+
+                    // Reset form
+                    this.reset();
+
+                    // Hide success message after 3 seconds
+                    setTimeout(() => {
+                        if (successMessage) {
+                            successMessage.classList.remove('active');
+                        }
+                    }, 3000);
+                });
+            }
+        });
+
+        // Resume Builder Functions
+        let currentTemplate = 1;
+        let currentColor = '#3498db';
+        let currentFontSize = 16;
+
+        function openResumeBuilder() {
+            document.getElementById('resumeBuilder').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResumeBuilder() {
+            document.getElementById('resumeBuilder').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectTemplate(templateNum) {
+            currentTemplate = templateNum;
+            document.querySelectorAll('.template-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            generateResume();
+        }
+
+        function changeColor(color) {
+            currentColor = color;
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            generateResume();
+        }
+
+        function changeFontSize(action) {
+            if (action === 'increase') {
+                currentFontSize = Math.min(currentFontSize + 2, 24);
+            } else {
+                currentFontSize = Math.max(currentFontSize - 2, 12);
+            }
+            document.getElementById('fontSize').textContent = `${currentFontSize}px`;
+            generateResume();
+        }
+
+        function removeSection(element) {
+            const section = element.closest('.education-entry, .experience-entry');
+            if (document.querySelectorAll('.education-entry, .experience-entry').length > 1) {
+                section.remove();
+            }
+        }
+
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const newEntry = container.children[0].cloneNode(true);
+            newEntry.querySelectorAll('input').forEach(input => input.value = '');
+            container.appendChild(newEntry);
+        }
+
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const newEntry = container.children[0].cloneNode(true);
+            newEntry.querySelectorAll('input, textarea').forEach(input => input.value = '');
+            container.appendChild(newEntry);
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function generateResume() {
+            const preview = document.getElementById('resumePreview');
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const summary = document.getElementById('summary').value;
+            const skills = document.getElementById('skills').value;
+
+            let html = `
+                <div class="resume-template template-${currentTemplate}" style="font-size: ${currentFontSize}px;">
+                    <h1 style="color: ${currentColor}; text-align: center; margin-bottom: 20px;">${fullName}</h1>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p>${email} | ${phone}</p>
+                        <p>${address}</p>
+                    </div>
+            `;
+
+            if (summary) {
+                html += `
+                    <h2 style="color: ${currentColor}; border-bottom: 2px solid ${currentColor}; padding-bottom: 5px; margin-top: 20px;">Professional Summary</h2>
+                    <p>${summary}</p>
+                `;
+            }
+
+            html += `
+                <h2 style="color: ${currentColor}; border-bottom: 2px solid ${currentColor}; padding-bottom: 5px; margin-top: 20px;">Education</h2>
+            `;
+
+            const educationEntries = document.querySelectorAll('.education-entry');
+            educationEntries.forEach(entry => {
+                const degree = entry.querySelector('[name="degree"]').value;
+                const institution = entry.querySelector('[name="institution"]').value;
+                const year = entry.querySelector('[name="year"]').value;
+                const gpa = entry.querySelector('[name="gpa"]').value;
+                html += `
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="margin: 0;">${degree}</h3>
+                        <p style="margin: 5px 0;">${institution} - ${year}</p>
+                        ${gpa ? `<p style="margin: 5px 0;">GPA: ${gpa}</p>` : ''}
+                    </div>
+                `;
+            });
+
+            html += `
+                <h2 style="color: ${currentColor}; border-bottom: 2px solid ${currentColor}; padding-bottom: 5px; margin-top: 20px;">Experience</h2>
+            `;
+
+            const experienceEntries = document.querySelectorAll('.experience-entry');
+            experienceEntries.forEach(entry => {
+                const position = entry.querySelector('[name="position"]').value;
+                const company = entry.querySelector('[name="company"]').value;
+                const duration = entry.querySelector('[name="duration"]').value;
+                const description = entry.querySelector('[name="description"]').value;
+                html += `
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="margin: 0;">${position}</h3>
+                        <p style="margin: 5px 0;">${company} - ${duration}</p>
+                        <p style="margin: 5px 0;">${description}</p>
+                    </div>
+                `;
+            });
+
+            if (skills) {
+                html += `
+                    <h2 style="color: ${currentColor}; border-bottom: 2px solid ${currentColor}; padding-bottom: 5px; margin-top: 20px;">Skills</h2>
+                    <div>
+                        ${skills.split(',').map(skill => `<span class="skill-tag" style="background-color: ${currentColor};">${skill.trim()}</span>`).join('')}
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            preview.innerHTML = html;
+        }
+
+        function printResume() {
+            window.print();
+        }
+
+        function downloadResume() {
+            const element = document.getElementById('resumePreview');
+            const opt = {
+                margin: 1,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Initialize the first template as selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.template-option').classList.add('selected');
+        });
+    </script>
+</body>
+</html>
